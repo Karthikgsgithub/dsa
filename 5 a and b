@@ -1,0 +1,115 @@
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+float stack[20];
+int top = -1;
+float eval_postfix(char[]); // function to evalute an given expression
+void push(float); // function to push elements to stack
+float pop(); // function to pop the elements from the stack
+void main()
+{
+char postfix[20];
+float result;
+printf("enter postfix expr\n");
+scanf("%s", postfix);
+result = eval_postfix(postfix);
+printf("The result = %f\n", result);
+}
+float eval_postfix(char postfix[])
+{
+int i = 0, k;
+char ch, op1, op2;
+float res;
+while (postfix[i] != '\0') // changed this part from the given manual
+{
+ch = postfix[i];
+if (isdigit(ch)) // check for digits checks whether a character is 
+numeric (0-9) or not.
+{
+k = ch - '0';
+push(k);
+}
+else
+{
+op2 = pop();
+op1 = pop();
+switch (ch)
+{
+case '+':
+push(op1 + op2);
+break;
+case '-':
+push(op1 - op2);
+break;
+case '*':
+push(op1 * op2);
+break;
+case '/':
+push(op1 / op2);
+break;
+case '^':
+push(pow(op1, op2));
+break;
+default:
+printf("illegal\n");
+exit(0);
+}
+}
+i++;
+}
+res = pop();
+if (top != -1)
+{
+printf("not a valid expression");
+exit(1);
+}
+return (res);
+}
+void push(float num)
+{
+top++;
+stack[top] = num;
+return;
+}
+float pop()
+{
+float num;
+if (top == -1)
+{
+printf("not a valid");
+exit(0);
+}
+else
+{
+num = stack[top];
+top--;
+return (num);
+}
+}
+
+
+b
+
+#include <stdio.h>
+void towers(int, char, char, char);
+int main()
+{
+int n;
+printf("Enter the number of disks : ");
+scanf("%d", &n);
+printf("The sequence of moves involved in the Tower of Hanoi are :\n");
+towers(n, 'A', 'B', 'C');
+return 0;
+}
+void towers(int n, char A, char B, char C)
+{
+if (n == 1)
+{
+printf("\nMove disk 1 from peg %c to peg %c", A, C);
+return;
+}
+towers(n - 1, A, C, B);
+printf("\nMove disk %d from peg %c to peg %c", n, A, C);
+towers(n - 1, B, A, C);
+}
