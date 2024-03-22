@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct BST
+{
+int data;
+struct BST *left;
+struct BST *right;
+};
+struct BST *createtree(struct BST *node, int data)
+{
+if (node == NULL)
+{
+struct BST *temp;
+temp = (struct BST *)malloc(sizeof(struct BST));
+temp->data = data;
+temp->left = temp->right = NULL;
+return temp;
+}
+if (data < (node->data))
+{
+node->left = createtree(node->left, data);
+}
+else if (data > node->data)
+{
+node->right = createtree(node->right, data);
+}
+return node;
+}
+void inorder(struct BST *root)
+{
+if (root != NULL)
+{
+inorder(root->left);
+printf("%d\t", root->data);
+inorder(root->right);
+}
+}
+void preorder(struct BST *root)
+{
+if (root != NULL)
+{
+printf("%d\t", root->data);
+preorder(root->left);
+preorder(root->right);
+}
+}
+void postorder(struct BST *root)
+{
+if (root != NULL)
+{
+postorder(root->left);
+postorder(root->right);
+printf("%d\t", root->data);
+}
+}
+struct BST *search(struct BST *root, int data)
+{
+if (root == NULL)
+{
+printf("\nElement not found");
+return root;
+}
+if (data == root->data)
+{
+printf("\nElement found is: %d", root->data);
+return root;
+}
+else if (data < root->data)
+{
+root->left = search(root->left, data);
+}
+else if (data > root->data)
+{
+root->right = search(root->right, data);
+}
+}
+void main()
+{
+int data, ch, i, n;
+struct BST *root = NULL;
+printf("\n1.Create a Binary Search Tree");
+printf("\n2.Inorder\n3.Preorder\n4.Postorder\n5.Search\n6.Exit");
+while (1)
+{
+printf("\nEnter your choice: ");
+scanf("%d", &ch);
+switch (ch)
+{
+case 1:
+printf("\nEnter the value of N: ");
+scanf("%d", &n);
+printf("\nEnter %d values to create BST :", n); // 6, 9, 5, 2, 8, 
+15, 24, 14, 7, 8, 5, 2
+for (i = 0; i < n; i++)
+{
+scanf("%d", &data);
+root = createtree(root, data);
+}
+break;
+case 2:
+printf("\nInorder Traversal: \n");
+inorder(root);
+break;
+case 3:
+printf("\nPreorder Traversal: \n");
+preorder(root);
+break;
+case 4:
+printf("\nPostorder Traversal: \n");
+postorder(root);
+break;
+case 5:
+printf("\nEnter the element to search: ");
+scanf("%d", &data);
+root = search(root, data);
+break;
+case 6:
+exit(0);
+default:
+printf("\nWrong option");
+break;
+}
+}
+}
