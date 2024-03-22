@@ -1,0 +1,180 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct node
+{
+long int ph;
+int sem;
+char name[20], usn[15], branch[10];
+struct node *next;
+} *head = NULL, *temp = NULL, *newnode;
+void create(long int ph, int sem, char name[20], char usn[15], char
+branch[10])
+{
+// create linked list by inserting newnode at front
+newnode = (struct node *)malloc(sizeof(struct node));
+newnode->ph = ph;
+newnode->sem = sem;
+strcpy(newnode->name, name);
+strcpy(newnode->usn, usn);
+strcpy(newnode->branch, branch);
+newnode->next = NULL;
+if (head == NULL)
+{
+head = newnode;
+}
+else
+{
+newnode->next = head;
+head = newnode;
+}
+}
+void display()
+{
+int count = 0;
+temp = head;
+if (temp == NULL)
+{
+printf("\nlist is empty\n");
+}
+else
+{
+printf("student details are as follows:\n");
+while (temp != NULL)
+{
+printf("-----------------------\n");
+printf("NAME:%s\nUSN:%s\nBRANCH:%s\nSEM:%d\nPHONE NO.:%ld\n",
+temp->name, temp->usn, temp->branch, temp->sem, temp->ph);
+printf("-----------------------\n");
+temp = temp->next;
+count++;
+}
+printf("no. of nodes=%d\n", count);
+}
+}
+void insertbeg(long int ph, int sem, char name[20], char usn[15], char
+branch[10])
+{
+newnode = (struct node *)malloc(sizeof(struct node));
+newnode->ph = ph;
+newnode->sem = sem;
+strcpy(newnode->name, name);
+strcpy(newnode->usn, usn);
+strcpy(newnode->branch, branch);
+newnode->next = NULL;
+newnode->next = head;
+head = newnode;
+}
+void insertend(long int ph, int sem, char name[20], char usn[15], char
+branch[10])
+{
+newnode = (struct node *)malloc(sizeof(struct node));
+newnode->ph = ph;
+newnode->sem = sem;
+strcpy(newnode->name, name);
+strcpy(newnode->usn, usn);
+strcpy(newnode->branch, branch);
+newnode->next = NULL;
+temp = head;
+while (temp->next != NULL)
+{
+temp = temp->next;
+}
+temp->next = newnode;
+}
+void deletebeg()
+{
+if (head == NULL)
+{
+printf("List is empty\n");
+return;
+}
+temp = head;
+printf("deleted node is:\n");
+printf("-----------------------\n");
+printf("NAME:%s\nUSN:%s\nBRANCH:%s\nSEM:%d\nPHONE NO.:%ld\n", temp->name,
+temp->usn, temp->branch, temp->sem, temp->ph);
+printf("-----------------------\n");
+head = head->next;
+free(temp);
+}
+void deleteend()
+{
+struct node *prevnode;
+if (head == NULL)
+{
+printf("List is empty\n");
+return;
+}
+if (head->next == NULL) // Single node
+{
+printf("deleted node is:\n");
+printf("-----------------------\n");
+printf("NAME:%s\nUSN:%s\nBRANCH:%s\nSEM:%d\nPHONE NO.:%ld\n",
+head->name, head->usn, head->branch, head->sem, head->ph);
+printf("-----------------------\n");
+head = NULL;
+free(head);
+return;
+}
+temp = head;
+while (temp->next != NULL)
+{
+prevnode = temp;
+temp = temp->next;
+}
+prevnode->next = NULL;
+printf("deleted node is:\n");
+printf("-----------------------\n");
+printf("NAME:%s\nUSN:%s\nBRANCH:%s\nSEM:%d\nPHONE NO.:%ld\n", temp->name,
+temp->usn, temp->branch, temp->sem, temp->ph);
+printf("-----------------------\n");
+free(temp);
+}
+void main()
+{
+int choice;
+long int ph;
+int sem;
+char name[20], usn[15], branch[10];
+printf("--------MENU----------\n");
+printf("1.create\n2.Insert from beginning\n3.Insert from end\n4.Delete 
+from beginning\n5.Delete from end\n6.display\n7.exit\n");
+printf("----------------------\n");
+while (1)
+{
+printf("enter your choice\n");
+scanf("%d", &choice);
+if (choice == 1 || choice == 2 || choice == 3)
+{
+printf("enter the name usn branch sem phno. of the student 
+respectively\n");
+scanf("%s%s%s%d%ld", name, usn, branch, &sem, &ph);
+}
+switch (choice)
+{
+case 1:
+create(ph, sem, name, usn, branch);
+break;
+case 2:
+insertbeg(ph, sem, name, usn, branch);
+break;
+case 3:
+insertend(ph, sem, name, usn, branch);
+break;
+case 4:
+deletebeg();
+break;
+case 5:
+deleteend();
+break;
+case 6:
+display();
+break;
+case 7:
+exit(0);
+default:
+printf("invalid option\n");
+}
+}
+}
