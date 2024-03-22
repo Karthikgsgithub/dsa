@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10 /* size of hash table */
+int findloc(int); /* function to find hash location to store 
+key */
+void linear_prob(int[], int, int); /* function to avoid collision */
+void display(int[]); /* function to display HASH Table */
+void main()
+{
+int a[MAX], location, key, i, n; /*declarations */
+int ans = 1;
+for (i = 0; i < MAX; i++)
+{
+a[i] = -1; /* assign -1 to all positions */
+}
+printf("Enter the total no. of records/keys\n");
+scanf("%d", &n);
+for (i = 0; i < n; i++) // insert n keys into hash table
+{
+printf("\n Enter the 4 digit key: ");
+scanf("%d", &key);
+location = findloc(key);
+linear_prob(a, location, key);
+}
+display(a);
+}
+int findloc(int key)
+{
+int loc;
+loc = key % 10; // loc is a position in array
+return loc;
+}
+void linear_prob(int a[MAX], int location, int key)
+{
+int newlocation, count = 0;
+int i;
+/*if key position is free, assign the number*/
+if (a[location] == -1)
+{
+a[location] = key;
+}
+else
+{
+printf("\nCollision Detected...!!!\n");
+// Before resolving the collision, check hash table full?
+/*check whether there exists any free position*/
+for (i = 0; i < MAX; i++)
+{
+if (a[i] != -1)
+count++;
+}
+if (count == MAX) /* no free position */
+{
+printf("\n Hash table is full");
+display(a); // display filled hash table
+exit(1);
+}
+/* If hash table is not full, check whether next to location value 
+position is free,
+to place the number */
+for (i = 0; i < MAX; i++)
+{
+newlocation = (location + i) % MAX;
+if (a[newlocation] == -1)
+{
+a[newlocation] = key;
+break;
+}
+}
+printf("Collision resolved successfully using LINEAR PROBING\n");
+}
+}
+void display(int a[MAX])
+{
+int i;
+printf("\n Complete Hash table is\n");
+printf(" LOCATION\tKEY\n");
+for (i = 0; i < MAX; i++)
+{
+printf(" %d\t \t%d\n", i, a[i]);
+}
+}
